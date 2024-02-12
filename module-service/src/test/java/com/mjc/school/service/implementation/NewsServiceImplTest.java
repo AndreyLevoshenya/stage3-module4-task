@@ -34,6 +34,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
+@SpringBootTest(classes = {TestConfig.class, JPAConfig.class})
 class NewsServiceImplTest {
     @Mock private NewsRepository newsRepository;
     @Mock private AuthorRepository authorRepository;
