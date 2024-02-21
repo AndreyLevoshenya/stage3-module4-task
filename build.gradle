@@ -18,25 +18,27 @@ subprojects {
         mavenCentral()
     }
 
-    dependencies {
-        implementation "org.springframework.boot:spring-boot-starter-data-jpa:2.7.7"
-        implementation "org.springframework.boot:spring-boot-starter-web:2.7.7";
-        implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.7'
-        implementation 'org.postgresql:postgresql:42.6.0'
-
-        implementation "org.springframework:spring-context:2.7.7"
-        implementation "org.mapstruct:mapstruct:$mapstructVersion"
-        annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
-
-        testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.7'
-        testImplementation 'com.h2database:h2:2.2.224'
-        testImplementation "org.springframework:spring-test:2.7.7"
-        testImplementation "org.junit.jupiter:junit-jupiter-api:2.7.7"
-        testImplementation "com.tngtech.archunit:archunit-junit5:1.0.0"
-        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:2.7.7"
-
-    }
     test {
+        dependencies {
+            implementation 'org.postgresql:postgresql:42.6.0'
+            implementation "org.springframework.boot:spring-boot-starter-data-jpa:2.7.7"
+            implementation 'org.springframework.boot:spring-boot-starter-aop:2.7.7'
+            implementation "org.springframework.boot:spring-boot-starter-web:2.7.7"
+
+            implementation "org.springframework:spring-context:2.7.7"
+            implementation "org.mapstruct:mapstruct:$mapstructVersion"
+            annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+
+            implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'
+            implementation 'com.thegoate:restassured:0.15.17.202305061925'
+
+            testImplementation 'org.springframework.boot:spring-boot-starter-test:2.7.7'
+            testImplementation 'com.h2database:h2:2.2.224'
+            testImplementation "org.springframework:spring-test:2.7.7"
+            testImplementation "org.junit.jupiter:junit-jupiter-api:2.7.7"
+            testImplementation "com.tngtech.archunit:archunit-junit5:1.0.0"
+            testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:2.7.7"
+        }
         useJUnitPlatform()
     }
 }
