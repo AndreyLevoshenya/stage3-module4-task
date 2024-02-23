@@ -24,6 +24,7 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
 
     @Override
     @GetMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<List<TagDtoResponse>> readAll(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -34,35 +35,41 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
 
     @Override
     @GetMapping(value = "/{id:\\d+}", params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<TagDtoResponse> readById(@PathVariable Long id) {
         return new ResponseEntity<>(tagService.readById(id), OK);
     }
 
     @Override
     @PostMapping(params = "version=1")
+    @ResponseStatus(CREATED)
     public ResponseEntity<TagDtoResponse> create(@RequestBody TagDtoRequest createRequest) {
         return new ResponseEntity<>(tagService.create(createRequest), CREATED);
     }
 
     @Override
     @PutMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<TagDtoResponse> update(@RequestBody TagDtoRequest updateRequest) {
         return new ResponseEntity<>(tagService.update(updateRequest), OK);
     }
 
     @Override
     @PatchMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<TagDtoResponse> patch(@RequestBody TagDtoRequest updateRequest) {
         return new ResponseEntity<>(tagService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return new ResponseEntity<>(tagService.deleteById(id), NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<List<TagDtoResponse>> readByNewsId(@PathVariable Long newsId) {
         return new ResponseEntity<>(tagService.readByNewsId(newsId), OK);
     }

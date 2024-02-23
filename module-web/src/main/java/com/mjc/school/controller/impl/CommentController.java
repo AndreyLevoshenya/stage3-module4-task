@@ -24,6 +24,7 @@ public class CommentController implements BaseController<CommentDtoRequest, Comm
 
     @Override
     @GetMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<List<CommentDtoResponse>> readAll(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -34,35 +35,41 @@ public class CommentController implements BaseController<CommentDtoRequest, Comm
 
     @Override
     @GetMapping(value = "/{id:\\d+}", params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<CommentDtoResponse> readById(@PathVariable Long id) {
         return new ResponseEntity<>(commentService.readById(id), OK);
     }
 
     @Override
     @PostMapping(params = "version=1")
+    @ResponseStatus(CREATED)
     public ResponseEntity<CommentDtoResponse> create(@RequestBody CommentDtoRequest createRequest) {
         return new ResponseEntity<>(commentService.create(createRequest), CREATED);
     }
 
     @Override
     @PutMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<CommentDtoResponse> update(@RequestBody CommentDtoRequest updateRequest) {
         return new ResponseEntity<>(commentService.update(updateRequest), OK);
     }
 
     @Override
     @PatchMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<CommentDtoResponse> patch(@RequestBody CommentDtoRequest updateRequest) {
         return new ResponseEntity<>(commentService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return new ResponseEntity<>(commentService.deleteById(id), NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<List<CommentDtoResponse>> readByNewsId(@PathVariable Long newsId) {
         return new ResponseEntity<>(commentService.readByNewsId(newsId), OK);
     }

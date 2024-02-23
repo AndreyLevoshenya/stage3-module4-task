@@ -24,6 +24,7 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
 
     @Override
     @GetMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<List<AuthorDtoResponse>> readAll(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
@@ -33,35 +34,41 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
 
     @Override
     @GetMapping(value = "/{id:\\d+}", params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<AuthorDtoResponse> readById(@PathVariable Long id) {
         return new ResponseEntity<>(authorService.readById(id), OK);
     }
 
     @Override
     @PostMapping(params = "version=1")
+    @ResponseStatus(CREATED)
     public ResponseEntity<AuthorDtoResponse> create(@RequestBody AuthorDtoRequest createRequest) {
         return new ResponseEntity<>(authorService.create(createRequest), CREATED);
     }
 
     @Override
     @PutMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<AuthorDtoResponse> update(@RequestBody AuthorDtoRequest updateRequest) {
         return new ResponseEntity<>(authorService.update(updateRequest), OK);
     }
 
     @Override
     @PatchMapping(params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<AuthorDtoResponse> patch(@RequestBody AuthorDtoRequest updateRequest) {
         return new ResponseEntity<>(authorService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
+    @ResponseStatus(NO_CONTENT)
     public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return new ResponseEntity<>(authorService.deleteById(id), NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")
+    @ResponseStatus(OK)
     public ResponseEntity<AuthorDtoResponse> readByNewsId(@PathVariable Long newsId) {
         return new ResponseEntity<>(authorService.readByNewsId(newsId), OK);
     }
