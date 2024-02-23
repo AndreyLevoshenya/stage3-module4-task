@@ -57,8 +57,8 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public NewsDtoResponse create(@Valid NewsDtoRequest createRequest) {
-        if (!authorRepository.existById(createRequest.authorId())) {
-            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), createRequest.authorId()));
+        if (!authorRepository.existById(createRequest.getAuthorId())) {
+            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), createRequest.getAuthorId()));
         }
         News model = newsDtoMapper.dtoToModel(createRequest, newsRepository, authorRepository, tagRepository);
 
@@ -68,14 +68,14 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional
     public NewsDtoResponse update(@Valid NewsDtoRequest updateRequest) {
-        if (!newsRepository.existById(updateRequest.id())) {
-            throw new NotFoundException(String.format(NEWS_DOES_NOT_EXIST.getErrorMessage(), updateRequest.id()));
+        if (!newsRepository.existById(updateRequest.getId())) {
+            throw new NotFoundException(String.format(NEWS_DOES_NOT_EXIST.getErrorMessage(), updateRequest.getId()));
         }
-        if (!authorRepository.existById(updateRequest.authorId())) {
-            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), updateRequest.authorId()));
+        if (!authorRepository.existById(updateRequest.getAuthorId())) {
+            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), updateRequest.getAuthorId()));
         }
 
-        for (Long id : updateRequest.tagIds()) {
+        for (Long id : updateRequest.getTagIds()) {
             if (!tagRepository.existById(id)) {
                 throw new NotFoundException(String.format(TAG_DOES_NOT_EXIST.getErrorMessage(), id));
             }
@@ -93,30 +93,30 @@ public class NewsServiceImpl implements NewsService {
         String content;
         Long authorId;
         List<Long> tagIds = new ArrayList<>();
-        if (patchRequest.id() != null && newsRepository.existById(patchRequest.id())) {
-            id = patchRequest.id();
+        if (patchRequest.getId() != null && newsRepository.existById(patchRequest.getId())) {
+            id = patchRequest.getId();
         } else {
-            throw new NotFoundException(String.format(NEWS_DOES_NOT_EXIST.getErrorMessage(), patchRequest.id()));
+            throw new NotFoundException(String.format(NEWS_DOES_NOT_EXIST.getErrorMessage(), patchRequest.getId()));
         }
         News prevNews = newsRepository.readById(id).get();
-        title = patchRequest.title() != null ? patchRequest.title() : prevNews.getTitle();
-        content = patchRequest.content() != null ? patchRequest.content() : prevNews.getContent();
-        if (patchRequest.authorId() != null) {
-            if (authorRepository.existById(patchRequest.authorId())) {
-                authorId = patchRequest.authorId();
+        title = patchRequest.getTitle() != null ? patchRequest.getTitle() : prevNews.getTitle();
+        content = patchRequest.getContent() != null ? patchRequest.getContent() : prevNews.getContent();
+        if (patchRequest.getAuthorId() != null) {
+            if (authorRepository.existById(patchRequest.getAuthorId())) {
+                authorId = patchRequest.getAuthorId();
             } else {
-                throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), patchRequest.id()));
+                throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), patchRequest.getId()));
             }
         } else {
             authorId = prevNews.getAuthor().getId();
         }
 
-        if (patchRequest.tagIds() != null) {
-            for (Long tagId : patchRequest.tagIds()) {
+        if (patchRequest.getTagIds() != null) {
+            for (Long tagId : patchRequest.getTagIds()) {
                 if (!tagRepository.existById(tagId)) {
                     throw new NotFoundException(String.format(TAG_DOES_NOT_EXIST.getErrorMessage(), tagId));
                 }
-                tagIds.addAll(patchRequest.tagIds());
+                tagIds.addAll(patchRequest.getTagIds());
             }
         } else {
             tagIds.addAll(prevNews.getTags().stream().map(Tag::getId).toList());

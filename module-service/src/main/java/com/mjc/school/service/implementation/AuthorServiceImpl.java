@@ -57,11 +57,11 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     @Transactional
     public AuthorDtoResponse update(@Valid AuthorDtoRequest updateRequest) {
-        if (authorRepository.existById(updateRequest.id())) {
+        if (authorRepository.existById(updateRequest.getId())) {
             Author author = authorDtoMapper.dtoToModel(updateRequest);
             return authorDtoMapper.modelToDto(authorRepository.update(author));
         } else {
-            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), updateRequest.id()));
+            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), updateRequest.getId()));
         }
     }
 
@@ -70,13 +70,13 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorDtoResponse patch(AuthorDtoRequest patchRequest) {
         Long id;
         String name;
-        if (patchRequest.id() != null && authorRepository.existById(patchRequest.id())) {
-            id = patchRequest.id();
+        if (patchRequest.getId() != null && authorRepository.existById(patchRequest.getId())) {
+            id = patchRequest.getId();
         } else {
-            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), patchRequest.id()));
+            throw new NotFoundException(String.format(AUTHOR_DOES_NOT_EXIST.getErrorMessage(), patchRequest.getId()));
         }
         Author prevAuthor = authorRepository.readById(id).get();
-        name = patchRequest.name() != null ? patchRequest.name() : prevAuthor.getName();
+        name = patchRequest.getName() != null ? patchRequest.getName() : prevAuthor.getName();
 
         AuthorDtoRequest authorDtoRequest = new AuthorDtoRequest(id, name);
 

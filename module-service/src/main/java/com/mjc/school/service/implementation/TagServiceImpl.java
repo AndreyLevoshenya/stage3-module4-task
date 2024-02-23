@@ -59,11 +59,11 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public TagDtoResponse update(@Valid TagDtoRequest updateRequest) {
-        if (tagRepository.existById(updateRequest.id())) {
+        if (tagRepository.existById(updateRequest.getId())) {
             Tag tag = tagDtoMapper.dtoToModel(updateRequest);
             return tagDtoMapper.modelToDto(tagRepository.update(tag));
         } else {
-            throw new NotFoundException(String.format(TAG_DOES_NOT_EXIST.getErrorMessage(), updateRequest.id()));
+            throw new NotFoundException(String.format(TAG_DOES_NOT_EXIST.getErrorMessage(), updateRequest.getId()));
         }
     }
 
@@ -72,13 +72,13 @@ public class TagServiceImpl implements TagService {
     public TagDtoResponse patch(TagDtoRequest patchRequest) {
         Long id;
         String name;
-        if (patchRequest.id() != null && tagRepository.existById(patchRequest.id())) {
-            id = patchRequest.id();
+        if (patchRequest.getId() != null && tagRepository.existById(patchRequest.getId())) {
+            id = patchRequest.getId();
         } else {
-            throw new NotFoundException(String.format(TAG_DOES_NOT_EXIST.getErrorMessage(), patchRequest.id()));
+            throw new NotFoundException(String.format(TAG_DOES_NOT_EXIST.getErrorMessage(), patchRequest.getId()));
         }
         Tag prevTag = tagRepository.readById(id).get();
-        name = patchRequest.name() != null ? patchRequest.name() : prevTag.getName();
+        name = patchRequest.getName() != null ? patchRequest.getName() : prevTag.getName();
 
         TagDtoRequest updateRequest = new TagDtoRequest(id, name);
 

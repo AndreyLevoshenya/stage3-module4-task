@@ -63,11 +63,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     @Transactional
     public CommentDtoResponse update(@Valid CommentDtoRequest updateRequest) {
-        if (commentRepository.existById(updateRequest.id())) {
+        if (commentRepository.existById(updateRequest.getId())) {
             Comment comment = commentDtoMapper.dtoToModel(updateRequest, newsRepository);
             return commentDtoMapper.modelToDto(commentRepository.update(comment), newsDtoMapper);
         } else {
-            throw new NotFoundException(String.format(COMMENT_DOES_NOT_EXIST.getErrorMessage(), updateRequest.id()));
+            throw new NotFoundException(String.format(COMMENT_DOES_NOT_EXIST.getErrorMessage(), updateRequest.getId()));
         }
     }
 
@@ -76,13 +76,13 @@ public class CommentServiceImpl implements CommentService {
     public CommentDtoResponse patch(CommentDtoRequest patchRequest) {
         Long id;
         String content;
-        if (patchRequest.id() != null && commentRepository.existById(patchRequest.id())) {
-            id = patchRequest.id();
+        if (patchRequest.getId() != null && commentRepository.existById(patchRequest.getId())) {
+            id = patchRequest.getId();
         } else {
-            throw new NotFoundException(String.format(COMMENT_DOES_NOT_EXIST.getErrorMessage(), patchRequest.id()));
+            throw new NotFoundException(String.format(COMMENT_DOES_NOT_EXIST.getErrorMessage(), patchRequest.getId()));
         }
         Comment prevComment = commentRepository.readById(id).get();
-        content = patchRequest.content() != null ? patchRequest.content() : prevComment.getContent();
+        content = patchRequest.getContent() != null ? patchRequest.getContent() : prevComment.getContent();
 
         CommentDtoRequest updateRequest = new CommentDtoRequest(id, content, prevComment.getNews().getId());
 
