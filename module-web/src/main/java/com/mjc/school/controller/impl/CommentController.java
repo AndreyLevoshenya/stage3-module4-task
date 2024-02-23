@@ -66,9 +66,8 @@ public class CommentController implements BaseController<CommentDtoRequest, Comm
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<CommentDtoResponse> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         commentService.deleteById(id);
-        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")

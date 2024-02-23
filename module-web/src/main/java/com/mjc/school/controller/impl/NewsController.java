@@ -67,9 +67,8 @@ public class NewsController implements BaseController<NewsDtoRequest, NewsDtoRes
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<NewsDtoResponse> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         newsService.deleteById(id);
-        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/byParams", params = "version=1")

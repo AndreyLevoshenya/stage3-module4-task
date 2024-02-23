@@ -66,9 +66,8 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<TagDtoResponse> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         tagService.deleteById(id);
-        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")

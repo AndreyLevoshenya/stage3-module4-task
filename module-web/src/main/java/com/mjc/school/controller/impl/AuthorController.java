@@ -65,9 +65,8 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<AuthorDtoResponse> deleteById(@PathVariable Long id) {
+    public void deleteById(@PathVariable Long id) {
         authorService.deleteById(id);
-        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")
