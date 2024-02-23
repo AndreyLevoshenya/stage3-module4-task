@@ -12,9 +12,9 @@ public interface BaseController<T, R, K> {
 
     ResponseEntity<R> create(T createRequest);
 
-    ResponseEntity<R> update(T updateRequest);
+    ResponseEntity<R> update(Long id, T updateRequest);
 
-    ResponseEntity<R> patch(T patchRequest);
+    ResponseEntity<R> patch(Long id, T patchRequest);
 
-    ResponseEntity<Boolean> deleteById(K id);
+    ResponseEntity<R> deleteById(K id);
 }

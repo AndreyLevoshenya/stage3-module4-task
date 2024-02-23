@@ -48,24 +48,27 @@ public class TagController implements BaseController<TagDtoRequest, TagDtoRespon
     }
 
     @Override
-    @PutMapping(params = "version=1")
+    @PutMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<TagDtoResponse> update(@RequestBody TagDtoRequest updateRequest) {
+    public ResponseEntity<TagDtoResponse> update(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(tagService.update(updateRequest), OK);
     }
 
     @Override
-    @PatchMapping(params = "version=1")
+    @PatchMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<TagDtoResponse> patch(@RequestBody TagDtoRequest updateRequest) {
+    public ResponseEntity<TagDtoResponse> patch(@PathVariable Long id, @RequestBody TagDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(tagService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
-        return new ResponseEntity<>(tagService.deleteById(id), NO_CONTENT);
+    public ResponseEntity<TagDtoResponse> deleteById(@PathVariable Long id) {
+        tagService.deleteById(id);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")

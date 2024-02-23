@@ -49,24 +49,27 @@ public class NewsController implements BaseController<NewsDtoRequest, NewsDtoRes
     }
 
     @Override
-    @PutMapping(params = "version=1")
+    @PutMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<NewsDtoResponse> update(@RequestBody NewsDtoRequest updateRequest) {
+    public ResponseEntity<NewsDtoResponse> update(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(newsService.update(updateRequest), OK);
     }
 
     @Override
-    @PatchMapping(params = "version=1")
+    @PatchMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<NewsDtoResponse> patch(@RequestBody NewsDtoRequest updateRequest) {
+    public ResponseEntity<NewsDtoResponse> patch(@PathVariable Long id, @RequestBody NewsDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(newsService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
-        return new ResponseEntity<>(newsService.deleteById(id), NO_CONTENT);
+    public ResponseEntity<NewsDtoResponse> deleteById(@PathVariable Long id) {
+        newsService.deleteById(id);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/byParams", params = "version=1")

@@ -48,24 +48,27 @@ public class CommentController implements BaseController<CommentDtoRequest, Comm
     }
 
     @Override
-    @PutMapping(params = "version=1")
+    @PutMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<CommentDtoResponse> update(@RequestBody CommentDtoRequest updateRequest) {
+    public ResponseEntity<CommentDtoResponse> update(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(commentService.update(updateRequest), OK);
     }
 
     @Override
-    @PatchMapping(params = "version=1")
+    @PatchMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<CommentDtoResponse> patch(@RequestBody CommentDtoRequest updateRequest) {
+    public ResponseEntity<CommentDtoResponse> patch(@PathVariable Long id, @RequestBody CommentDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(commentService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
-        return new ResponseEntity<>(commentService.deleteById(id), NO_CONTENT);
+    public ResponseEntity<CommentDtoResponse> deleteById(@PathVariable Long id) {
+        commentService.deleteById(id);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")

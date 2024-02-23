@@ -47,24 +47,27 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
     }
 
     @Override
-    @PutMapping(params = "version=1")
+    @PutMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<AuthorDtoResponse> update(@RequestBody AuthorDtoRequest updateRequest) {
+    public ResponseEntity<AuthorDtoResponse> update(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(authorService.update(updateRequest), OK);
     }
 
     @Override
-    @PatchMapping(params = "version=1")
+    @PatchMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(OK)
-    public ResponseEntity<AuthorDtoResponse> patch(@RequestBody AuthorDtoRequest updateRequest) {
+    public ResponseEntity<AuthorDtoResponse> patch(@PathVariable Long id, @RequestBody AuthorDtoRequest updateRequest) {
+        updateRequest.setId(id);
         return new ResponseEntity<>(authorService.patch(updateRequest), OK);
     }
 
     @Override
     @DeleteMapping(value = "/{id:\\d+}", params = "version=1")
     @ResponseStatus(NO_CONTENT)
-    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
-        return new ResponseEntity<>(authorService.deleteById(id), NO_CONTENT);
+    public ResponseEntity<AuthorDtoResponse> deleteById(@PathVariable Long id) {
+        authorService.deleteById(id);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping(value = "/get/{newsId:\\d+}", params = "version=1")
